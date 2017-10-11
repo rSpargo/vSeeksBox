@@ -1,0 +1,15 @@
+.createVseeks {
+    display: block;
+    margin: 0 auto;
+}
+.item {
+    border: solid black 2px;
+}
+.center_text {
+    text-align: center;
+}
+
+header h1 {
+    margin-left: 100px;
+    margin-right: 100px;
+}
