@@ -9,7 +9,7 @@
         "128": "images/icons/16.png"
     }, */
     "browser_action": {
-        "default_popup": "default.html",
+        "default_popup": "public/default.html",
         "default_title": "vSeeksBox"
     },
     "author": "Ryan Spargo"
