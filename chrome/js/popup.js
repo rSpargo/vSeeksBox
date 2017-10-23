@@ -1,10 +1,18 @@
+var createVSeeksButton = document.getElementById('createVseeks');
+var saveVSeeksButton = document.getElementById('newVSubmit');
+var vForm = document.getElementById('vseeks-form');
+createVSeeksButton.onclick = function() { newVSeeks(); }
+vForm.onsubmit = function() { saveVSeeks(vForm); return false; }
+
+
 function newVSeeks() {
-    console.log("entered new vseek method");
-    var body = document.getElementById('body');
-    var content = "<form class='vseeks-form' name='vSeekForm'>";
-    content += "Task:<br />";
-    content += "<input type='text' name='task'><br />";
-    content += "<input type='submit' value= 'Submit'";
-    content += "</form>";
-    body.innerHTML = content;
+    //set form visibility to visible; set button visibility to none.
+    vForm.style.display = 'block';
+    createVSeeksButton.style.display = 'none';
+}
+function saveVSeeks(form) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.open('POST', 'https://vseeks-box.herokuapp.com/saveVSeeks/newuser');
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("task=" + form.task.value);
 }

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>vSeeksBox Preferences</title>
+        <link rel="stylesheet" href="./css/preference_style">
+    </head>
+    <body>
+        <header>
+            <h1 class="title item">Preferences</h1>
+        </header>
+        <div id="body" class="item">
+            <form id="preferenceForm" name="preferenceForm">
+                Notifications: <br />
+                Tone: <input type="radio" name="tone" value="true"> On
+                      <input type="radio" name="tone" value="false"> Off
+                <br /> <br />
+                Custom Commands: <br />
+                <div id="custom-commands" class="item"></div>
+                <div class="button-container item">
+                    <button id="addButton">ADD</button>
+                    <button id="deleteButton">DELETE</button>
+                </div>
+                <input type="submit" id="preferenceSubmit" value="SAVE">
+            </form>
+        </div>
+        <footer>
+            <p class="copyright item">&copy;2017 Ryan Spargo</p>
+            <p class="disclaimer item">vSeeksBox is inspired, but not affiliated with Rick and Morty.</p>
+        </footer>
+        <script src="./js/preferences.js"></script>
+    </body>
+</html>

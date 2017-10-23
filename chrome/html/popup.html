@@ -3,7 +3,7 @@
     <head>
         <title>vSeeksBox Popup</title>
         
-        <link rel="stylesheet" href="css/popup_style.css">
+        <link rel="stylesheet" href="./css/popup_style.css">
     </head>
     <body>
         <header>
@@ -11,13 +11,17 @@
             <p class="welcome item center_text">Welcome, *insert user*</p>
         </header>
         <div id="body" class="item">
-            <button class="createVseeks" onclick="newVSeeks()">+</button>
+            <button id="createVseeks">+</button>
+            <form id='vseeks-form' name='vSeeksForm'>
+                Task: <br />
+                <input type='text' name='task' placeholder='eg. Help me study!'><br />
+                <input type='submit' id='newVSubmit' value='Submit'>
+            </form>
         </div>
         <footer>
             <p class="copyright item">&copy;2017 Ryan Spargo</p>
             <p class="disclaimer item">vSeeksBox is inspired, but not affiliated with Rick and Morty.</p>
         </footer>
-        <!-- <script src="js/mongo.js"></script> -->
-        <script src="js/popup.js"></script>
+        <script src="./js/popup.js"></script>
     </body>
 </html>

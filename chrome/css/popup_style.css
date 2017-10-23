@@ -1,4 +1,4 @@
-.createVseeks {
+#createVseeks {
     display: block;
     margin: 0 auto;
 }
@@ -12,4 +12,8 @@
 header h1 {
     margin-left: 100px;
     margin-right: 100px;
+}
+
+#vseeks-form {
+    display: none;
 }
