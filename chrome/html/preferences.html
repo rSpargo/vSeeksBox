@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>vSeeksBox Preferences</title>
-        <link rel="stylesheet" href="./css/preference_style">
+        <link rel="stylesheet" href="../css/preference_style.css">
     </head>
     <body>
         <header>
@@ -11,22 +11,40 @@
         <div id="body" class="item">
             <form id="preferenceForm" name="preferenceForm">
                 Notifications: <br />
-                Tone: <input type="radio" name="tone" value="true"> On
+                Tone: <input type="radio" name="tone" value="true" checked="checked"> On
                       <input type="radio" name="tone" value="false"> Off
                 <br /> <br />
                 Custom Commands: <br />
-                <div id="custom-commands" class="item"></div>
+                <select multiple id="custom-commands" class="item"></select>
                 <div class="button-container item">
                     <button id="addButton">ADD</button>
                     <button id="deleteButton">DELETE</button>
                 </div>
                 <input type="submit" id="preferenceSubmit" value="SAVE">
             </form>
+            <div id="commandModal" class="modal">
+                <div class="modal-content">
+                    <span class="modal-close" id="close">&times;</span>
+                    <div class="modal-header">
+                        <h2>New Command</h2>
+                    </div>
+                    <div class="modal-body">
+                        <form name="newCommand" class="commandForm" id="commandForm">
+                            Phrase:
+                            <input type="text" name="phrase" placeholder="eg. Help me study!"> <br />
+                            Website Blacklist:
+                            <textarea name="blacklist" id="blacklist" placeholder="seperate sites with commas..."></textarea>
+                            <input type="submit" id="commandSave" value="SAVE">
+                            <p id="status"></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
         <footer>
             <p class="copyright item">&copy;2017 Ryan Spargo</p>
             <p class="disclaimer item">vSeeksBox is inspired, but not affiliated with Rick and Morty.</p>
         </footer>
-        <script src="./js/preferences.js"></script>
+        <script src="../js/preferences.js"></script>
     </body>
 </html>
