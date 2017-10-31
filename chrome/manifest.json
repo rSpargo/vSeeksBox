@@ -14,6 +14,17 @@
     },
 
     "options_page": "./html/preferences.html",
+
+    "background": {
+        "scripts": [
+            "./js/eventPage.js"
+        ],
+        "persitent": false
+    } ,
+
+    "permissions": [
+        "notifications"
+    ],
     
     "author": "Ryan 'neuSpargo' Spargo"
 }
