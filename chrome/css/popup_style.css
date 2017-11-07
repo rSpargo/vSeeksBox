@@ -19,6 +19,7 @@ header {
     flex-direction: row;
 }
 
-#vseeks-form {
-    display: none;
+.newV_button, .home_button {
+    margin: 0 auto;
+    font-size: 2em;
 }

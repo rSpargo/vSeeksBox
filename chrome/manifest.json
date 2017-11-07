@@ -19,11 +19,13 @@
         "scripts": [
             "./js/eventPage.js"
         ],
-        "persitent": false
+        "persistent": false
     } ,
 
     "permissions": [
-        "notifications"
+        "notifications",
+        "storage",
+        "alarms"
     ],
     
     "author": "Ryan 'neuSpargo' Spargo"

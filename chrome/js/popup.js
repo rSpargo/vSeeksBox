@@ -10,27 +10,33 @@ app.config(function($routeProvider) {
     })
 });
 app.controller('mainController', function($scope, $http) {
-
+    $http.get("https://vseeks-box.herokuapp.com/getVSeeks/newuser")
+    .then(function(response) { $scope.vseeks = response.data });
 });
 app.controller('vSeeksController', function($scope, $http) {
+    $scope.createVSeeks = function() {
+        var data = {
+            task: $scope.task,
+            timer: {
+                hours: $scope.hours,
+                minutes: $scope.minutes,
+                seconds: $scope.seconds
+            }
+        };
+        $http.post('https://vseeks-box.herokuapp.com/saveVSeeks/newuser', data)
+        .then(function (response) {
+            var notif = {
+                type: 'basic',
+                title: " New vSeek Created!",
+                message: 'This vSeek has been tasked with "' + $scope.task + '"!',
+                iconUrl: '../assets/icon.png'
+            }
 
+            var tone = new Audio('../assets/tada.wav');
+
+            chrome.notifications.create('newVSeeks', notif, function() { });
+            tone.play();
+            window.location.href = '#/!';
+        });
+    }
 });
-
-/* var createVSeeksButton = document.getElementById('createVseeks');
-var saveVSeeksButton = document.getElementById('newVSubmit');
-var vForm = document.getElementById('vseeks-form');
-createVSeeksButton.onclick = function() { newVSeeks(); }
-vForm.onsubmit = function() { saveVSeeks(vForm); return false; }
-
-
-function newVSeeks() {
-    //set form visibility to visible; set button visibility to none.
-    vForm.style.display = 'block';
-    createVSeeksButton.style.display = 'none';
-}
-function saveVSeeks(form) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.open('POST', 'https://vseeks-box.herokuapp.com/saveVSeeks/newuser');
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("task=" + form.task.value);
-} */
