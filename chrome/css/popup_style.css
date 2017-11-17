@@ -23,3 +23,8 @@ header {
     margin: 0 auto;
     font-size: 2em;
 }
+
+.vseek-life {
+    display: flex;
+    flex-direction: row;
+}
