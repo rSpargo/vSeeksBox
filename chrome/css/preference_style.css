@@ -29,9 +29,9 @@
 
 .modal-content {
     background-color: #e8e8e8;
-    margin: 15% auto;
+    margin: 20px;
     padding: 10px;
-    width: 40%;
+    width: 80%;
 }
 
 .modal-close{

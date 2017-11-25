@@ -26,6 +26,7 @@ app.controller('mainController', function($scope, $window) {
         $window.location.href = '#!/detail/' + index;
     }
 });
+
 app.controller('vSeeksController', function($scope, $window, $route, $http) {
     $scope.createVSeeks = function() {
         $http.get('https://vseeks-box.herokuapp.com/genID')
@@ -54,29 +55,8 @@ app.controller('vSeeksController', function($scope, $window, $route, $http) {
                 chrome.alarms.create(data.id, alarmTime);        
             });
         });
-
-
-    //$window.location.reload();
-    //$window.location.href = '#!/';
-        
-        /* $http.post('https://vseeks-box.herokuapp.com/saveVSeeks/newuser', data)
-        .then(function (response) {
-            var notif = {
-                type: 'basic',
-                title: " New vSeek Created!",
-                message: 'This vSeek has been tasked with "' + $scope.task + '"!',
-                iconUrl: '../assets/icon.png'
-            }
-
-
-
-            var tone = new Audio('../assets/tada.wav');
-
-            chrome.notifications.create('newVSeeks', notif, function() { });
-            tone.play();
-            window.location.href = '#/!';
-        }); */
     }
+
     function convertToMilli (hrs, mins, secs) {
         console.log("conversion method hit")
         var result = 0;

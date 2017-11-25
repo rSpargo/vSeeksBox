@@ -1,12 +1,46 @@
 var add = document.getElementById('addButton');
 var deleteButt = document.getElementById('deleteButton');
 var commandSave = document.getElementById('commandSave');
-var preferenceSubmit = document.getElementById('preferenceSubmit');
+//var preferenceSubmit = document.getElementById('preferenceSubmit');
+var selectBox = document.getElementById('custom-commands');
+var onRadio = document.getElementById('radioON');
+var offRadio = document.getElementById('radioOFF');
 var jsonDict = [];
+pullTone();
+pullCommands();
+
+function pullTone() {
+    chrome.storage.sync.get('userData', function(items) {
+        if (items.userData.preferences.notifications.tone) {
+            onRadio.checked = true;
+            offRadio.checked = false;
+        }
+        else {
+            offRadio.checked = true;
+            onRadio.checked = false;
+        }
+    });
+}
+function pullCommands() {
+    chrome.storage.sync.get('userData', function(items) {
+        var commandArr = items.userData.preferences.commands;
+        commandArr.forEach(element => {
+            //send all existing commands to optionbox
+            var command = document.createElement('option');
+            command.text = element.phrase;
+            command.value = commandArr.indexOf(element);
+            jsonDict.push(element);
+            selectBox.add(command);
+        });
+    });
+}
+
 add.onclick = function() { openModal(); return false;}
-deleteButt.onclick = function() { deleteCommand(); return false;}
-commandSave.onclick = function() { saveCommand();  return false;}
-preferenceSubmit.onclick = function() { saveAll(); return false;}
+deleteButt.onclick = function() { deleteCommand();}
+commandSave.onclick = function() { saveCommand();}
+//preferenceSubmit.onclick = function() { saveAll(); return false;}
+onRadio.onclick = function() { saveTone(true); }
+offRadio.onclick = function() { saveTone(false); }
 
 function openModal() {
     var modal = document.getElementById('commandModal');
@@ -23,13 +57,47 @@ function openModal() {
     }
 }
 
+function saveTone(bool) {
+    console.log('current tone status: ', bool);
+    if (bool) {
+        onRadio.checked = true;
+        offRadio.checked = false;
+    }
+    else {
+        onRadio.checked = false;
+        offRadio.checked = true;
+    }
+    chrome.storage.sync.get('userData', function(items) {
+        var newData = items.userData;
+        newData.preferences.notifications.tone = bool;
+        chrome.storage.sync.set({'userData': newData});
+    });
+}
+
 function saveCommand() {
+    //push new command to local storage and refresh selectBox
     var form = document.forms["newCommand"];
     var selectBox = document.getElementById('custom-commands');
     var optionArr = selectBox.getElementsByTagName('option');
     var command = document.createElement('option');
-    var blacklistArr = (form.blacklist.value).split(',');
+    var blacklistArr = (form.blacklist.value).split(', ');
+    var cleanArr = [];
 
+    blacklistArr.forEach(url => {
+        var regEx = /^(?:http[s]?:\/\/)?(?:[^@\/\n]+@)?(?:www\.)?([^:\/\n]+)/;
+        var match = regEx.exec(url);
+        cleanArr.push(match[1]);
+    });
+
+    chrome.storage.sync.get('userData', function(items) {
+        var newData = items.userData;
+        var prefs = newData.preferences;
+
+        prefs.commands.push({ phrase: form.phrase.value, site_blacklist: cleanArr });
+        chrome.storage.sync.set({'userData': newData});
+    });
+    pullCommands();
+/* 
     command.text = form.phrase.value;
     command.value = optionArr.length;
 
@@ -41,26 +109,35 @@ function saveCommand() {
     jsonDict.push(commandJSON);
     selectBox.add(command);
 
-    console.log("Save Command: ", jsonDict);
+    console.log("Save Command: ", jsonDict); */
 }
 
 function deleteCommand() {
     var selectBox = document.getElementById('custom-commands');
     var selectedCommand = selectBox.selectedIndex;
-    jsonDict.splice(selectedCommand.value, 1);
-    selectBox.remove(selectedCommand);
-    console.log("Delete Command: ", jsonDict);
+    chrome.storage.sync.get('userData', function(items){
+        var newData = items.userData;
+        var prefs = newData.preferences;
+        prefs.commands.splice(selectedCommand.value, 1);
+        chrome.storage.sync.set({'userData': newData});
+    });
+    pullCommands();
+    // jsonDict.splice(selectedCommand.value, 1);
+    //selectBox.remove(selectedCommand);
+    //console.log("Delete Command: ", jsonDict);
 }
 
-function saveAll() {
+/* function saveAll() {
     var form = document.getElementById("preferenceForm");
-    var params = "tone=" + form.tone.value + "&commands=" + JSON.stringify(jsonDict);
-    console.log('Params to be sent: ', params);
-    var xhttp = new XMLHttpRequest();
-    xhttp.open('POST', 'https://vseeks-box.herokuapp.com/savePrefs/newuser');
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send(params);
-    document.getElementById('status').innerText = 'SUCCESS!';
+    chrome.storage.sync.get('userData', function(items) {
+        var newData = items.userData;
+        newData.preferences.notifications.tone = form.tone.value;
+        newData.commands = JSON.stringify(jsonDict);
+
+        console.log('data being saved: ', newData);
+
+        chrome.storage.sync.set({'userData': newData});
+    });
 
     /* xhttp.onreadystatechange = function() {
         if (xhttp.readyState === 4) {
@@ -71,5 +148,5 @@ function saveAll() {
                 document.getElementById('status').innerText = 'Preferences could not be saved.';
             }
         }
-    } */
-}
+    }
+} */

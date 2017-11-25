@@ -1,3 +1,4 @@
+var userID = '';
 chrome.identity.getAuthToken({interactive:true}, function(token) {
     var xhttp = new XMLHttpRequest();
     xhttp.open('GET', 'https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=' + token);
@@ -5,9 +6,10 @@ chrome.identity.getAuthToken({interactive:true}, function(token) {
         if (this.readyState == 4 && this.status == 200) {
             console.log("Received data: ", JSON.parse(this.responseText));
             var authData = JSON.parse(this.responseText);
+            userID = authData.id;
 
             var db = new XMLHttpRequest();
-            db.open('GET', 'https://vseeks-box.herokuapp.com/getData/' + authData.id);
+            db.open('GET', 'https://vseeks-box.herokuapp.com/getData/' + userID);
             db.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var chromeData = JSON.parse(this.responseText);
@@ -27,6 +29,11 @@ chrome.storage.onChanged.addListener(function(changes) {
     var totalVSeeks = changes.userData.newValue.vSeeks.length;
     console.log(changes);
     chrome.browserAction.setBadgeText({"text": totalVSeeks.toString()});
+    var db = new XMLHttpRequest();
+    db.open('POST', 'https://vseeks-box.herokuapp.com/saveData/' + userID);
+    var params = 'vSeeks=' + JSON.stringify(changes.userData.newValue.vSeeks) + '&preferences=' + JSON.stringify(changes.userData.newValue.preferences);
+    db.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    db.send(params);
 });
 
 //listen for alarm
@@ -44,7 +51,11 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
     }
     var tone = new Audio('../assets/tada.wav');
     chrome.notifications.create(alarm.name, notif, function(){ });
-    tone.play();
+    chrome.storage.sync.get('userData', function(items) {
+        if(items.userData.preferences.notifications.tone) {
+            tone.play();
+        }
+    });
 });
 
 //listen for notification button press
@@ -72,7 +83,28 @@ chrome.notifications.onButtonClicked.addListener(function(id, index) {
             });
             chrome.storage.sync.set({'userData': newData});       
         });
-        //reaccess websites
-        
     }
+});
+
+//listen for updated tabs
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+    console.log("TAB CHANGED: ", tab.url);
+    var urlPattern = /^(?:http[s]?:\/\/)?(?:[^@\/\n]+@)?(?:www\.)?([^:\/\n]+)/;
+    chrome.storage.sync.get('userData', function(items) {
+        var vSeeks = items.userData.vSeeks;
+        var commandArr = items.userData.preferences.commands;
+        vSeeks.forEach(vseek => {
+            var task = vseek.task;
+            var commandIndex = commandArr.findIndex(i => i.phrase === task);
+            var blacklist = commandArr[commandIndex].site_blacklist;
+            blacklist.forEach(url => {
+                var match = urlPattern.exec(tab.url);
+                console.log("RegEx match: ", match[1]);
+                if (match[1] === url) {
+                    console.log('MATCH: REDIRECTING');
+                    chrome.tabs.update({url: '../html/site_block.html'});
+                }
+            });
+        });
+    });
 });
