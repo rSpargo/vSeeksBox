@@ -36,7 +36,7 @@
     "oauth2": {
         "client_id": "238658097600-svfa6h655hg67aci4vls57cb0koni1ju.apps.googleusercontent.com",
         "scopes": [
-            "profile"
+            "https://www.googleapis.com/auth/userinfo.profile"
         ]
     },
     

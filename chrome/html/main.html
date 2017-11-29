@@ -1,8 +1,8 @@
-<div class="vseek-container item">
-    <h2 ng-if="vseeks.length == 0">
-        Looks like you don't have any vSeeks! <br/>
-        Click the '+' button to create a new one!
-    </h2>
+<div class="vseek-container">
+    <div id="no-vseeks">
+        <div class="big-button-container"><a href="#!newVSeeks" class="big-button"><h1>CREATE</h1></a></div>
+        <!-- <a href="#!newVSeeks" class="big-button"><div class="big-button-container"><h1>CREATE</h1></div></a> -->
+    </div>
     <div class="vseek item" ng-repeat="v in vseeks" ng-click="viewDetail(v)">
            <p class="task">{{v.task}}</p>
            <h3 class="countdown"></h3>

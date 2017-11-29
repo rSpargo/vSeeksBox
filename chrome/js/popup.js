@@ -8,23 +8,17 @@ app.config(function($routeProvider) {
         templateUrl: '../html/new-vseeks.html',
         controller: 'vSeeksController'
     })
-    .when('/detail/:id', {
-        templateUrl: '../html/vseeks-detail.html',
-        controller: 'detailController'
-    })
 });
 app.controller('mainController', function($scope, $window) {
-    /* $http.get("https://vseeks-box.herokuapp.com/getVSeeks/newuser")
-    .then(function(response) { $scope.vseeks = response.data }); */
     chrome.storage.sync.get('userData', function(items){
         $scope.vseeks = items.userData.vSeeks;
+        if ($scope.vseeks.length < 1) {
+            document.getElementById('no-vseeks').style.display = 'block';
+        }
+        else {
+            document.getElementById('no-vseeks').style.display = 'none';
+        }
     });
-    $scope.viewDetail = function(vseek) {
-        console.log("vSeek: ", vseek);
-        var index = $scope.vseeks.indexOf(vseek);
-        console.log("index: ", index);
-        $window.location.href = '#!/detail/' + index;
-    }
 });
 
 app.controller('vSeeksController', function($scope, $window, $route, $http) {
@@ -33,6 +27,14 @@ app.controller('vSeeksController', function($scope, $window, $route, $http) {
         .then(function(response) {
              $scope.id = response.data;
 
+             var blacklistArr = $scope.blacklist.split(', ');
+             var cleanArr = [];
+             blacklistArr.forEach(url => {
+                var regEx = /^(?:http[s]?:\/\/)?(?:[^@\/\n]+@)?(?:www\.)?([^:\/\n]+)/;
+                var match = regEx.exec(url);
+                cleanArr.push(match[1]);        
+             });
+
              var data = {
                 id: $scope.id,
                 task: $scope.task,
@@ -40,7 +42,8 @@ app.controller('vSeeksController', function($scope, $window, $route, $http) {
                     hours: $scope.hours,
                     minutes: $scope.minutes,
                     seconds: $scope.seconds
-                }
+                },
+                blacklist: cleanArr
             };
             console.log("new vSeek data", data);
             chrome.storage.sync.get('userData', function(items) {
@@ -66,13 +69,4 @@ app.controller('vSeeksController', function($scope, $window, $route, $http) {
         console.log("result: ", result)
         return result;
     }
-});
-app.controller('detailController', function($scope, $routeParams){
-    var data = "";
-    console.log("Controller called. Route params: ", $routeParams);
-    chrome.storage.sync.get('userData', function(items){
-        $scope.currentVSeek = items.userData.vSeeks[$routeParams.id];
-        console.log($scope.currentVSeek);
-    });
-    console.log($scope.currentVSeek);
 });

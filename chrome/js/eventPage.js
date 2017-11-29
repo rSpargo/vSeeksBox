@@ -1,5 +1,6 @@
 var userID = '';
 chrome.identity.getAuthToken({interactive:true}, function(token) {
+    console.log('token: ', token);
     var xhttp = new XMLHttpRequest();
     xhttp.open('GET', 'https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=' + token);
     xhttp.onreadystatechange = function() {
@@ -43,7 +44,7 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
         type: 'basic',
         title: "Look at me!",
         message: 'The time you set is up! Are you finished?',
-        iconUrl: '../assets/icon.png',
+        iconUrl: '../assets/icons/icon128.png',
         buttons: [
             {title: "Nope! I need more time."},
             {title: "Yep! You're free to go."}
@@ -61,9 +62,14 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 //listen for notification button press
 chrome.notifications.onButtonClicked.addListener(function(id, index) {
     if (index === 0) {
-        console.log("Option button: NO, clicked");
-        //keep active
-        //keep notifying
+        chrome.storage.sync.get('userData', function(items) {
+            chrome.notifications.create('delayNotification', {
+                type: 'basic',
+                title: 'Alright; no problem.',
+                message: 'Your vSeek will check up on you in ' + items.userInfo.preferences.reminder + 'minutes...',
+                iconUrl: '../assets/icons/icon128.png'
+            }, function(){});
+        });
     } 
     else {
         //disarm alarm
@@ -92,11 +98,8 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     var urlPattern = /^(?:http[s]?:\/\/)?(?:[^@\/\n]+@)?(?:www\.)?([^:\/\n]+)/;
     chrome.storage.sync.get('userData', function(items) {
         var vSeeks = items.userData.vSeeks;
-        var commandArr = items.userData.preferences.commands;
         vSeeks.forEach(vseek => {
-            var task = vseek.task;
-            var commandIndex = commandArr.findIndex(i => i.phrase === task);
-            var blacklist = commandArr[commandIndex].site_blacklist;
+            var blacklist = vseek.blacklist;
             blacklist.forEach(url => {
                 var match = urlPattern.exec(tab.url);
                 console.log("RegEx match: ", match[1]);

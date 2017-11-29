@@ -8,16 +8,17 @@
     <body ng-app="vSeeksBox-Extension" ng-controller="mainController">
         <header class="item">
             <div class="home_button item"><a href="#/!">H</a></div>
-            <h1 class="logo item center_text">vSeeksBox</h1>
+            <div class="logo item center_text"><img src="../assets/logo.png"></div>
+            <!-- <h1 class="logo item center_text">vSeeksBox</h1> -->
             <div class="newV_button item"><a href="#!newVSeeks">+</a></div>
         </header>
-        <div id="body" class="item">
+        <div id="body">
             <div ng-view></div>
         </div>
-        <footer>
-            <p class="copyright item">&copy;2017 Ryan Spargo</p>
+        <!-- <footer>
+            <p class="copyright item">&copy;2017 Ryan 'neuSpargo' Spargo</p>
             <p class="disclaimer item">vSeeksBox is inspired, but not affiliated with Rick and Morty.</p>
-        </footer>
+        </footer> -->
         <script src="../js/angular.min.js"></script>
         <script src="../js/angular-route.js"></script>
         <script src="../js/popup.js"></script>

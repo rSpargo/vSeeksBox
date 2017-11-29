@@ -1,6 +1,8 @@
 <form ng-submit="createVSeeks()">
-    Task: 
-    <input type="text" ng-model="task" placeholder="What is my purpose?"> <br/>
+    How can they help?:<br/> 
+    <input type="text" ng-model="task" placeholder="eg. Help me study..."> <br/>
+    What sites should they block?:<br/>
+    <textarea ng-model="blacklist" class="blacklist" placeholder="seperate with a comma and space..."></textarea><br/>
     How long should this take? <br/>
     <input type="number" ng-model="hours" placeholder="HH" min="0" value="0">
     <input type="number" ng-model="minutes" placeholder="MM" min="0" max="59" value="0">
