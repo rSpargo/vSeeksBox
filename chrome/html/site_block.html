@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Site Locked!</title>
+        <title>vSeeksBox - Site Locked!</title>
+        <link rel="stylesheet" href="../css/siteblock_style.css">
     </head>
     <body>
         <div class="vseek-body">
-            <img src="../assets/icons/icon128.png">
-            <h1 class="vseek-message">One of your vSeeks is blocking this page!</h1>
-            <h2 class="vseek-message">Dismiss your vSeek at the end of it's time to gain back access.</h2>
+            <div class="center_text vseek-text">
+                <h1 class="vseek-message center_text">SITE CURRENTLY BLOCKED</h1>
+                <h1 class="vseek-message center_text">YOUR VSEEKS WILL CHECK UP ON YOU IN: </h1>
+                <h1 class="countdown center_text" id="countdown">LOADING COUNTDOWN...</h1>
+            </div>
         </div>
+        <script src="../js/siteblock.js"></script>
     </body>
 </html>

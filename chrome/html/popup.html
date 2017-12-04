@@ -2,15 +2,14 @@
 <html>
     <head>
         <title>vSeeksBox Popup</title>
-        
         <link rel="stylesheet" href="../css/popup_style.css">
     </head>
     <body ng-app="vSeeksBox-Extension" ng-controller="mainController">
         <header class="item">
-            <div class="home_button item"><a href="#/!">H</a></div>
-            <div class="logo item center_text"><img src="../assets/logo.png"></div>
+            <div class="home_button" id="home_button"><a href="#/!">&larr;</a></div>
+            <div class="logo center_text"><img src="../assets/logo.png"></div>
             <!-- <h1 class="logo item center_text">vSeeksBox</h1> -->
-            <div class="newV_button item"><a href="#!newVSeeks">+</a></div>
+            <div class="newV_button" id="newV_button"><a href="#!newVSeeks">+</a></div>
         </header>
         <div id="body">
             <div ng-view></div>

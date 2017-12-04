@@ -9,19 +9,33 @@ app.config(function($routeProvider) {
         controller: 'vSeeksController'
     })
 });
-app.controller('mainController', function($scope, $window) {
+app.controller('mainController', function($scope) {
+    var noVseeks;
+    var home_button;
+    var newV_button;
+
+    console.log('controller reached', $scope.vseeks);
     chrome.storage.sync.get('userData', function(items){
         $scope.vseeks = items.userData.vSeeks;
+        console.log('inside chrome storage get', $scope.vseeks);
+        home_button = document.getElementById('home_button');
+        newV_button = document.getElementById('newV_button');
+        console.log('variables: ', home_button, newV_button);
         if ($scope.vseeks.length < 1) {
-            document.getElementById('no-vseeks').style.display = 'block';
+            home_button.style.visibility = "hidden";
+            newV_button.style.visibility = "hidden";
         }
         else {
-            document.getElementById('no-vseeks').style.display = 'none';
+            newV_button.style.visibility = "visible";
+            if (home_button.style.visibility == "visible") {
+                home_button.style.visibility = "hidden";
+            }
         }
     });
 });
 
 app.controller('vSeeksController', function($scope, $window, $route, $http) {
+    document.getElementById('home_button').style.visibility = "visible";
     $scope.createVSeeks = function() {
         $http.get('https://vseeks-box.herokuapp.com/genID')
         .then(function(response) {
@@ -55,8 +69,10 @@ app.controller('vSeeksController', function($scope, $window, $route, $http) {
                 var alarmTime = {
                     when: Date.now() + convertToMilli(data.timer.hours, data.timer.minutes, data.timer.seconds)
                 }
-                chrome.alarms.create(data.id, alarmTime);        
+                chrome.alarms.create(data.id, alarmTime);     
             });
+            $window.location.href = '#/!';
+            $window.location.reload();
         });
     }
 

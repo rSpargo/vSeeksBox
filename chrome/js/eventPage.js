@@ -27,14 +27,16 @@ chrome.identity.getAuthToken({interactive:true}, function(token) {
 
 //listen for changes in local storage
 chrome.storage.onChanged.addListener(function(changes) {
-    var totalVSeeks = changes.userData.newValue.vSeeks.length;
-    console.log(changes);
-    chrome.browserAction.setBadgeText({"text": totalVSeeks.toString()});
-    var db = new XMLHttpRequest();
-    db.open('POST', 'https://vseeks-box.herokuapp.com/saveData/' + userID);
-    var params = 'vSeeks=' + JSON.stringify(changes.userData.newValue.vSeeks) + '&preferences=' + JSON.stringify(changes.userData.newValue.preferences);
-    db.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    db.send(params);
+    if (typeof changes.userData !== 'undefined') {
+        var totalVSeeks = changes.userData.newValue.vSeeks.length;
+        console.log(changes);
+        chrome.browserAction.setBadgeText({"text": totalVSeeks.toString()});
+        var db = new XMLHttpRequest();
+        db.open('POST', 'https://vseeks-box.herokuapp.com/saveData/' + userID);
+        var params = 'vSeeks=' + JSON.stringify(changes.userData.newValue.vSeeks) + '&preferences=' + JSON.stringify(changes.userData.newValue.preferences);
+        db.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        db.send(params);
+    }
 });
 
 //listen for alarm
@@ -63,10 +65,13 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 chrome.notifications.onButtonClicked.addListener(function(id, index) {
     if (index === 0) {
         chrome.storage.sync.get('userData', function(items) {
+            var reminder_time = items.userData.preferences.notifications.reminder;
+            console.log(items);
+            console.log(reminder_time);
             chrome.notifications.create('delayNotification', {
                 type: 'basic',
                 title: 'Alright; no problem.',
-                message: 'Your vSeek will check up on you in ' + items.userInfo.preferences.reminder + 'minutes...',
+                message: 'Your vSeek will check up on you in ' + reminder_time + ' minutes...',
                 iconUrl: '../assets/icons/icon128.png'
             }, function(){});
         });
@@ -105,7 +110,9 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
                 console.log("RegEx match: ", match[1]);
                 if (match[1] === url) {
                     console.log('MATCH: REDIRECTING');
-                    chrome.tabs.update({url: '../html/site_block.html'});
+                    chrome.tabs.update({url: '../html/site_block.html'}, function(tab) {
+                        chrome.storage.sync.set({'blockingVSeek': vseek});
+                    });
                 }
             });
         });

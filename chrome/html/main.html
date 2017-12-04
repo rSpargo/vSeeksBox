@@ -1,9 +1,9 @@
 <div class="vseek-container">
-    <div id="no-vseeks">
+    <div id="no_vseeks" ng-show="vseeks.length == 0">
         <div class="big-button-container"><a href="#!newVSeeks" class="big-button"><h1>CREATE</h1></a></div>
         <!-- <a href="#!newVSeeks" class="big-button"><div class="big-button-container"><h1>CREATE</h1></div></a> -->
     </div>
-    <div class="vseek item" ng-repeat="v in vseeks" ng-click="viewDetail(v)">
+    <div class="vseek item" ng-repeat="v in vseeks">
            <p class="task">{{v.task}}</p>
            <h3 class="countdown"></h3>
     </div>
