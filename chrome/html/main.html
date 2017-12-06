@@ -3,8 +3,15 @@
         <div class="big-button-container"><a href="#!newVSeeks" class="big-button"><h1>CREATE</h1></a></div>
         <!-- <a href="#!newVSeeks" class="big-button"><div class="big-button-container"><h1>CREATE</h1></div></a> -->
     </div>
-    <div class="vseek item" ng-repeat="v in vseeks">
-           <p class="task">{{v.task}}</p>
-           <h3 class="countdown"></h3>
+    <div ng-repeat="v in vseeks">
+        <button class="vseek_accordian item" ng-click="toggleAcc($event)">{{v.task}}</button>
+        <div class="panel">
+            <h3 class="vID">vID: </h3><p>{{v.id}}</p>
+            <h3 class="blocking">BLOCKING: </h3>
+            <div class="blacklist">
+                <p ng-repeat="site in v.blacklist">{{site}}</p>
+            </div>
+        </div>
     </div>
+    
 </div>

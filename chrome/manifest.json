@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "vSeeksBox",
     "version": "1.0",
-    "description": "Create vSeeks to help you get stuff done! This is primarily a procrastination aide.",
+    "description": "Procrastination aide; create 'vSeeks' to block websites and help you stay focused for set amounts of time.",
     "icons": {
         "16": "./assets/icons/icon16.png",
         "48": "./assets/icons/icon48.png",

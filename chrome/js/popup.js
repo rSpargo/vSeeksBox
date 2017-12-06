@@ -10,6 +10,16 @@ app.config(function($routeProvider) {
     })
 });
 app.controller('mainController', function($scope) {
+    $scope.toggleAcc = function($event) {
+        var currentAcc = $event.currentTarget;
+        currentAcc.classList.toggle("active");
+        var panel = currentAcc.nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            panel.style.display = "block";
+        }
+    }
     var noVseeks;
     var home_button;
     var newV_button;
