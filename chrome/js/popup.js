@@ -8,6 +8,10 @@ app.config(function($routeProvider) {
         templateUrl: '../html/new-vseeks.html',
         controller: 'vSeeksController'
     })
+    .when('/confirm', {
+        templateUrl: '../html/confirmation.html',
+        controller: 'confirmController'
+    })
 });
 app.controller('mainController', function($scope) {
     $scope.toggleAcc = function($event) {
@@ -81,8 +85,7 @@ app.controller('vSeeksController', function($scope, $window, $route, $http) {
                 }
                 chrome.alarms.create(data.id, alarmTime);     
             });
-            $window.location.href = '#/!';
-            $window.location.reload();
+            $window.location.href = '#!confirm';
         });
     }
 
@@ -95,4 +98,7 @@ app.controller('vSeeksController', function($scope, $window, $route, $http) {
         console.log("result: ", result)
         return result;
     }
+});
+app.controller('confirmController', function() {
+
 });

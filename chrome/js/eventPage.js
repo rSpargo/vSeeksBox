@@ -64,8 +64,11 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 //listen for notification button press
 chrome.notifications.onButtonClicked.addListener(function(id, index) {
     if (index === 0) {
+        //recreate alarm for reuse with reminder time
+        chrome.alarms.clear(id);
         chrome.storage.sync.get('userData', function(items) {
             var reminder_time = items.userData.preferences.notifications.reminder;
+            chrome.alarms.create(id, {when: (Date.now() + (reminder_time * 60000))});
             console.log(items);
             console.log(reminder_time);
             chrome.notifications.create('delayNotification', {
