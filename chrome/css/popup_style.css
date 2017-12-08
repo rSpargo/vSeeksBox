@@ -6,6 +6,11 @@ html {
     font-family: 'Open Sans', sans-serif;
 }
 
+button, input[type=submit] {
+    font-family: 'Open Sans', sans-serif;
+    padding: 10px;
+}
+
 body {
     min-width: 250px;
 }
@@ -125,4 +130,16 @@ header {
 
 .vseek_accordian.active, .vseek_accordian:hover {
     background-color: #ccc;
+}
+
+input.ng-dirty.ng-invalid, textarea.ng-dirty.ng-invalid {
+    background-color: rgb(240, 31, 0);
+}
+
+input[type=number] {
+    width: 40px;
+}
+
+.delete {
+    margin-top: 15px;
 }

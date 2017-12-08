@@ -112,6 +112,7 @@ app.controller('confirmController', function() {
     //Nothing to see here...
 });
 app.controller('deleteController', function($scope) {
+    $scope.boxStyle = {};
     $scope.checkID = function(input) {
         if (input === currentVID) {
             chrome.alarms.clear(currentVID);
@@ -121,8 +122,11 @@ app.controller('deleteController', function($scope) {
                 newData.vSeeks.splice(vSeek, 1);
                 chrome.storage.sync.set({'userData': newData});
             });
+            $scope.boxStyle = {'background-color': 'rgb(97, 240, 0)'};
+            $scope.id_input = "vSEEKS DELETED"
         } else {
-            
+            $scope.boxStyle = {'background-color': 'rgb(240, 31, 0)'};
+            $scope.id_input = "INVALID vID";
         }
     }
 });
