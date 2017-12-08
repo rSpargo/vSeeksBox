@@ -10,7 +10,7 @@
     },
     "browser_action": {
         "default_popup": "./html/popup.html",
-        "default_title": "vSeeksBox"
+        "default_title": "vSeeksBox (Test Build)"
     },
 
     "options_ui": {
