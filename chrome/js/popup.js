@@ -1,4 +1,5 @@
 var app = angular.module('vSeeksBox-Extension', ['ngRoute']);
+var currentVID = "";
 app.config(function($routeProvider) {
     $routeProvider
     .when('/', {
@@ -12,8 +13,12 @@ app.config(function($routeProvider) {
         templateUrl: '../html/confirmation.html',
         controller: 'confirmController'
     })
+    .when('/delete', {
+        templateUrl: '../html/delete.html',
+        controller: 'deleteController'
+    })
 });
-app.controller('mainController', function($scope) {
+app.controller('mainController', function($scope, $window) {
     $scope.toggleAcc = function($event) {
         var currentAcc = $event.currentTarget;
         currentAcc.classList.toggle("active");
@@ -23,6 +28,10 @@ app.controller('mainController', function($scope) {
         } else {
             panel.style.display = "block";
         }
+    }
+    $scope.sendID = function(id) {
+        currentVID = id;
+        $window.location.href = "#!delete";
     }
     var noVseeks;
     var home_button;
@@ -100,5 +109,20 @@ app.controller('vSeeksController', function($scope, $window, $route, $http) {
     }
 });
 app.controller('confirmController', function() {
-
+    //Nothing to see here...
+});
+app.controller('deleteController', function($scope) {
+    $scope.checkID = function(input) {
+        if (input === currentVID) {
+            chrome.alarms.clear(currentVID);
+            chrome.storage.sync.get('userData', function(items) {
+                var newData = items.userData;
+                var vSeek = newData.vSeeks.findIndex(i => i.id === currentVID);
+                newData.vSeeks.splice(vSeek, 1);
+                chrome.storage.sync.set({'userData': newData});
+            });
+        } else {
+            
+        }
+    }
 });

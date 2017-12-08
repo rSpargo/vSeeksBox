@@ -1,9 +1,9 @@
 <div class="vseek-container">
-    <div id="no_vseeks" ng-if="vseeks.length < 1">
+    <div id="no_vseeks" ng-show="vseeks.length < 1">
         <div class="big-button-container"><a href="#!newVSeeks" class="big-button"><h1>CREATE</h1></a></div>
         <!-- <a href="#!newVSeeks" class="big-button"><div class="big-button-container"><h1>CREATE</h1></div></a> -->
     </div>
-    <div ng-repeat="v in vseeks">
+    <div ng-repeat="v in vseeks" ng-if="vseeks.length > 0">
         <button class="vseek_accordian item" ng-click="toggleAcc($event)">{{v.task}}</button>
         <div class="panel">
             <h3 class="vID">vID: </h3><p>{{v.id}}</p>
@@ -11,6 +11,7 @@
             <div class="blacklist">
                 <p ng-repeat="site in v.blacklist">{{site}}</p>
             </div>
+            <button class="delete" ng-click="sendID(v.id)">DELETE?!</button>
         </div>
     </div>
     
