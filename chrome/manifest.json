@@ -1,7 +1,8 @@
 {
     "manifest_version": 2,
     "name": "vSeeksBox",
-    "version": "1.0",
+    "version": "1.5",
+    "version_name": "'Bypassing the Compressor' Update",
     "description": "Procrastination aide; create 'vSeeks' to block websites and help you stay focused for set amounts of time.",
     "icons": {
         "16": "./assets/icons/icon16.png",
@@ -10,7 +11,7 @@
     },
     "browser_action": {
         "default_popup": "./html/popup.html",
-        "default_title": "vSeeksBox (Test Build)"
+        "default_title": "vSeeksBox"
     },
 
     "options_ui": {
@@ -30,15 +31,8 @@
         "storage",
         "alarms",
         "identity",
-        "tabs"
+        "tabs",
+        "*://*/*"
     ],
-
-    "oauth2": {
-        "client_id": "238658097600-svfa6h655hg67aci4vls57cb0koni1ju.apps.googleusercontent.com",
-        "scopes": [
-            "https://www.googleapis.com/auth/userinfo.profile"
-        ]
-    },
-    
     "author": "Ryan 'neuSpargo' Spargo"
 }
