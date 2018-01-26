@@ -1,46 +1,9 @@
-// var userID = '';
-// chrome.identity.getAuthToken({interactive:true}, function(token) {
-//     if (!token) {
-//         alert("You are not signed in/do not have authentication token! \nPlease sign into the browser and reload extension.");
-//     }
-//     else {
-//         console.log('token: ', token);
-//         var xhttp = new XMLHttpRequest();
-//         xhttp.open('GET', 'https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=' + token);
-//         xhttp.onreadystatechange = function() {
-//             if (this.readyState == 4 && this.status == 200) {
-//                 console.log("Received data: ", JSON.parse(this.responseText));
-//                 var authData = JSON.parse(this.responseText);
-//                 userID = authData.id;
-    
-//                 var db = new XMLHttpRequest();
-//                 db.open('GET', 'https://vseeks-box.herokuapp.com/getData/' + userID);
-//                 db.onreadystatechange = function() {
-//                     if (this.readyState == 4 && this.status == 200) {
-//                         var chromeData = JSON.parse(this.responseText);
-//                         chrome.storage.sync.set({'userData': chromeData}, function() {
-//                             console.log('Data saved to local storage: ', chromeData);
-//                         });
-//                     }
-//                 }
-//                 db.send();
-//             }
-//         }
-//         xhttp.send();
-//     }
-// });
-
 //listen for changes in local storage
 chrome.storage.onChanged.addListener(function(changes) {
     if (typeof changes.userData !== 'undefined') {
         var totalVSeeks = changes.userData.newValue.vSeeks.length;
         console.log(changes);
         chrome.browserAction.setBadgeText({"text": totalVSeeks.toString()});
-        // var db = new XMLHttpRequest();
-        // db.open('POST', 'https://vseeks-box.herokuapp.com/saveData/' + userID);
-        // var params = 'vSeeks=' + JSON.stringify(changes.userData.newValue.vSeeks) + '&preferences=' + JSON.stringify(changes.userData.newValue.preferences);
-        // db.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        // db.send(params);
     }
 });
 
@@ -57,6 +20,7 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
             {title: "Yep! You're free to go."}
         ]
     }
+    //put new sound here...
     var tone = new Audio('../assets/tada.wav');
     chrome.notifications.create(alarm.name, notif, function(){ });
     chrome.storage.sync.get('userData', function(items) {
