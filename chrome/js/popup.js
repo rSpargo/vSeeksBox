@@ -51,9 +51,7 @@ app.controller('mainController', function($scope, $window) {
             }
             else {
                 newV_button.style.visibility = "visible";
-                if (home_button.style.visibility == "visible") {
-                    home_button.style.visibility = "hidden";
-                }
+                home_button.style.visibility = "hidden";
             }
         });
     });

@@ -3,7 +3,10 @@ chrome.storage.onChanged.addListener(function(changes) {
     if (typeof changes.userData !== 'undefined') {
         var totalVSeeks = changes.userData.newValue.vSeeks.length;
         console.log(changes);
-        chrome.browserAction.setBadgeText({"text": totalVSeeks.toString()});
+        if(totalVSeeks != 0) {
+            chrome.browserAction.setBadgeText({"text": totalVSeeks.toString()});
+        }
+        else { chrome.browserAction.setBadgeText({"text": ""}); }
     }
 });
 
