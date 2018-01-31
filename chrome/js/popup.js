@@ -39,21 +39,23 @@ app.controller('mainController', function($scope, $window) {
 
     console.log('controller reached', $scope.vseeks);
     chrome.storage.sync.get('userData', function(items){
-        $scope.vseeks = items.userData.vSeeks;
-        console.log('inside chrome storage get', $scope.vseeks);
-        home_button = document.getElementById('home_button');
-        newV_button = document.getElementById('newV_button');
-        console.log('variables: ', home_button, newV_button);
-        if ($scope.vseeks.length < 1) {
-            home_button.style.visibility = "hidden";
-            newV_button.style.visibility = "hidden";
-        }
-        else {
-            newV_button.style.visibility = "visible";
-            if (home_button.style.visibility == "visible") {
+        $scope.$apply(function(){
+            $scope.vseeks = items.userData.vSeeks;
+            console.log('inside chrome storage get', $scope.vseeks);
+            home_button = document.getElementById('home_button');
+            newV_button = document.getElementById('newV_button');
+            console.log('variables: ', home_button, newV_button);
+            if ($scope.vseeks.length < 1) {
                 home_button.style.visibility = "hidden";
+                newV_button.style.visibility = "hidden";
             }
-        }
+            else {
+                newV_button.style.visibility = "visible";
+                if (home_button.style.visibility == "visible") {
+                    home_button.style.visibility = "hidden";
+                }
+            }
+        });
     });
 });
 
