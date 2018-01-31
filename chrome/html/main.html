@@ -1,7 +1,6 @@
 <div class="vseek-container">
-    <div id="no_vseeks" ng-show="vseeks.length < 1">
+    <div id="no_vseeks" ng-show="vseeks.length === 0">
         <div class="big-button-container"><a href="#!newVSeeks" class="big-button"><h1>CREATE</h1></a></div>
-        <!-- <a href="#!newVSeeks" class="big-button"><div class="big-button-container"><h1>CREATE</h1></div></a> -->
     </div>
     <div ng-repeat="v in vseeks" ng-if="vseeks.length > 0">
         <button class="vseek_accordian item" ng-click="toggleAcc($event)">{{v.task}}</button>

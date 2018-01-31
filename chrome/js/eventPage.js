@@ -36,6 +36,9 @@ chrome.notifications.onButtonClicked.addListener(function(id, index) {
         //recreate alarm for reuse with reminder time
         chrome.alarms.clear(id);
         chrome.storage.sync.get('userData', function(items) {
+            var newData = items.userData;
+            var vSeek = newData.vSeeks.findIndex(i => i.id === id);
+            vSeek.denial_count++;
             var reminder_time = items.userData.preferences.notifications.reminder;
             chrome.alarms.create(id, {when: (Date.now() + (reminder_time * 60000))});
             console.log(items);
@@ -46,6 +49,7 @@ chrome.notifications.onButtonClicked.addListener(function(id, index) {
                 message: 'Your vSeek will check up on you in ' + reminder_time + ' minutes...',
                 iconUrl: '../assets/icons/icon128.png'
             }, function(){});
+            chrome.storage.sync.set({'userData': newData});
         });
     } 
     else {

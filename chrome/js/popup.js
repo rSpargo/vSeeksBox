@@ -80,7 +80,8 @@ app.controller('vSeeksController', function($scope, $window, $route, $http) {
                     minutes: $scope.minutes,
                     seconds: $scope.seconds
                 },
-                blacklist: cleanArr
+                blacklist: cleanArr,
+                denial_count: 0
             };
             console.log("new vSeek data", data);
             chrome.storage.sync.get('userData', function(items) {
