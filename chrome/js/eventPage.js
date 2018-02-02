@@ -40,8 +40,9 @@ chrome.notifications.onButtonClicked.addListener(function(id, index) {
         chrome.alarms.clear(id);
         chrome.storage.sync.get('userData', function(items) {
             var newData = items.userData;
-            var vSeek = newData.vSeeks.findIndex(i => i.id === id);
-            vSeek.denial_count++;
+            var vSeek = newData.vSeeks[newData.vSeeks.findIndex(i => i.id === id)];
+            console.log("Current vSeek: ", vSeek);
+            vSeek.denial_count += 1;
             var reminder_time = items.userData.preferences.notifications.reminder;
             chrome.alarms.create(id, {when: (Date.now() + (reminder_time * 60000))});
             console.log(items);
@@ -94,6 +95,23 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
                     });
                 }
             });
+            if (vseek.denial_count >= 1) {
+                console.log("denial count greater than or equal to 1")
+                chrome.tabs.executeScript(null, {file: "./js/take-over.js"});
+            }
         });
     });
 });
+
+function coinFlip() {
+    var rand = Math.random();
+    var isHeads;
+    if (rand == 0) {
+        isHeads = false;
+    }
+    else {
+        isHeads = true;
+    }
+
+    return isHeads;
+}

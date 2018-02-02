@@ -32,7 +32,9 @@
         "alarms",
         "identity",
         "tabs",
-        "*://*/*"
+        "*://*/*",
+        "http://*/",
+        "https://*/"
     ],
     "author": "Ryan 'neuSpargo' Spargo"
 }
