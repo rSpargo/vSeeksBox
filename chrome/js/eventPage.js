@@ -95,9 +95,10 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
                     });
                 }
             });
-            if (vseek.denial_count >= 1) {
-                console.log("denial count greater than or equal to 1")
-                chrome.tabs.executeScript(null, {file: "./js/take-over.js"});
+            if (vseek.denial_count >= 3) {
+                if (coinFlip()) {
+                    chrome.tabs.executeScript(null, {file: "./js/take-over.js"});
+                }
             }
         });
     });
